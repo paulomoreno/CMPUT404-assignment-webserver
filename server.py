@@ -49,26 +49,33 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         '''
         Defines which will be the correct http response.
         '''
-        #If the request didnt specify any files, use index.html as default
-        if filename[-1] == '/':
-            filename += + 'index.html'
-
-         #If the file exists
-        if os.path.isfile(os.getcwd()+"/www/" + filename):
-            f = file(os.getcwd()+"/www/" + filename,"r")
-
-            #Checks if the request is about a css or html file
-            if filename[-3:].lower() == 'css':
-                content_type = 'text/css'
-            #else if filename[-4:].lower() == 'html':
-            #    content_type = 'text/html'
-            else:
-                content_type = 'text/html'
-
-            self.send_response("200 OK",f.read(),content_type)
-        else:
+        
+        #If The URL requested is not trying to access a different folder than www/
+        if '/../' in filename:
             response_html = "<html><body><font size=\"14\"><b>Error 404: File not found</b></font></body></html>"
             self.send_response("404 Not Found",response_html,"text/html")
+        else:
+
+            #If the request didnt specify any files, use index.html as default
+            if filename[-1] == '/':
+                filename += 'index.html'   
+
+             #If the file exists
+            if os.path.isfile(os.getcwd()+"/www/" + filename):
+                f = file(os.getcwd()+"/www/" + filename,"r")
+
+                #Checks if the request is about a css or html file
+                if filename[-3:].lower() == 'css':
+                    content_type = 'text/css'
+                #else if filename[-4:].lower() == 'html':
+                #    content_type = 'text/html'
+                else:
+                    content_type = 'text/html'
+
+                self.send_response("200 OK",f.read(),content_type)
+            else:
+                response_html = "<html><body><font size=\"14\"><b>Error 404: File not found</b></font></body></html>"
+                self.send_response("404 Not Found",response_html,"text/html")
 
     def send_response(self, response_code, content, content_type):
         '''
