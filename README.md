@@ -24,3 +24,6 @@ examples thus some of the code is Copyright © 2001-2013 Python
 Software Foundation; All Rights Reserved under the PSF license (GPL
 compatible) http://docs.python.org/2/library/socketserver.html
 
+The HTTP response is based on the concepts described at the following Reference:
+http://www.codeproject.com/Articles/452052/Build-Your-Own-Web-Server
+
